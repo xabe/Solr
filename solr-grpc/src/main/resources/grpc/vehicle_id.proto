@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+import "vehicle_type.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+message VehicleId {
+
+  string id = 1;
+
+  VehicleType type = 2;
+}

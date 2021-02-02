@@ -1,0 +1,10 @@
+optimistic-locking:
+  max-attemps: 3
+  back-off-ms: 0
+
+solr:
+  row-count: 100
+  user: admin
+  password: password
+  port: 8983
+  host: localhost

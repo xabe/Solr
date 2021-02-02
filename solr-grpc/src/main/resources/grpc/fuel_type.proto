@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+enum FuelType {
+  FUEL_UNSPECIFIED = 0;
+  FUEL_PETROL = 1;
+  FUEL_ELECTRIC = 2;
+  FUEL_HYDROGEN = 3;
+}

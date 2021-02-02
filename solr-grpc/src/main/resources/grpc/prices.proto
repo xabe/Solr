@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+import "price.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+message Prices {
+
+  string currency_code = 1;
+
+  repeated Price prices = 2;
+
+}

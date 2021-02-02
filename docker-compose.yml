@@ -1,0 +1,13 @@
+version: '3'
+services:
+  solr:
+    container_name: solr_vehicles
+    build: ./solr/
+    ports:
+      - "8983:8983"
+    volumes:
+      - data:/var/solr
+    environment:
+      - VERBOSE=yes
+volumes:
+  data:

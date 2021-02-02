@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+import "engine_type.proto";
+import "fuel_type.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+message Engine {
+
+  EngineType type = 1;
+
+  FuelType fuel = 2;
+
+}

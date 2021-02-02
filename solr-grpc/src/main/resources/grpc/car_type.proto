@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+enum CarType {
+  CAR_UNSPECIFIED = 0;
+  CAR_SEDAN = 1;
+  CAR_COUPE = 2;
+  CAR_HATCHBACK = 3;
+  CAR_VAN = 4;
+  CAR_STATION_WAGON = 5;
+  CAR_CONVERTIBLE = 6;
+  CAR_SUV = 7;
+  CAR_PICK_UP = 8;
+}

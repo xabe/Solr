@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+enum TruckType {
+  TRUCK_UNSPECIFIED = 0;
+  TRUCK_CEMENT = 1;
+  TRUCK_CRANE = 2;
+  TRUCK_FIRE = 3;
+  TRUCK_TOWN = 4;
+  TRUCK_LIVESTOCK = 5;
+  TRUCK_TANKERS = 6;
+  TRUCK_TIPPER = 7;
+  TRUCK_TRAILER = 8;
+}

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+enum TransmissionType {
+  TRANSMISSION_UNSPECIFIED = 0;
+  TRANSMISSION_AUTOMATIC = 1;
+  TRANSMISSION_MANUAL = 2;
+}

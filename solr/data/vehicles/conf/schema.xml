@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="vehicles" version="1.6">
+  <!-- attribute "name" is the name of this schema and is only used for display purposes.
+     version="x.y" is Solr's version number for the schema syntax and
+     semantics.  It should not normally be changed by applications.
+
+     1.0: multiValued attribute did not exist, all fields are multiValued
+          by nature
+     1.1: multiValued attribute introduced, false by default
+     1.2: omitTermFreqAndPositions attribute introduced, true by default
+          except for text fields.
+     1.3: removed optional field compress feature
+     1.4: autoGeneratePhraseQueries attribute introduced to drive QueryParser
+          behavior when a single string produces multiple tokens.  Defaults
+          to off for version >= 1.4
+     1.5: omitNorms defaults to true for primitive field types
+          (int, float, boolean, string...)
+     1.6: useDocValuesAsStored defaults to true.
+  -->
+
+  <!-- Valid attributes for fields:
+   name: mandatory - the name for the field
+   type: mandatory - the name of a field type from the
+     fieldTypes section
+   indexed: true if this field should be indexed (searchable or sortable)
+   stored: true if this field should be retrievable
+   docValues: true if this field should have doc values. Doc values are
+     useful (required, if you are using *Point fields) for faceting,
+     grouping, sorting and function queries. Doc values will make the index
+     faster to load, more NRT-friendly and more memory-efficient.
+     They however come with some limitations: they are currently only
+     supported by StrField, UUIDField, all Trie*Fields and *PointFields,
+     and depending on the field type, they might require the field to be
+     single-valued, be required or have a default value (check the
+     documentation of the field type you're interested in for more information)
+   multiValued: true if this field may contain multiple values per document
+   omitNorms: (expert) set to true to omit the norms associated with
+     this field (this disables length normalization and index-time
+     boosting for the field, and saves some memory).  Only full-text
+     fields or fields that need an index-time boost need norms.
+     Norms are omitted for primitive (non-analyzed) types by default.
+   termVectors: [false] set to true to store the term vector for a
+     given field.
+     When using MoreLikeThis, fields used for similarity should be
+     stored for best performance.
+   termPositions: Store position information with the term vector.
+     This will increase storage costs.
+   termOffsets: Store offset information with the term vector. This
+     will increase storage costs.
+   required: The field is required.  It will throw an error if the
+     value does not exist
+   default: a value that should be used if no value is specified
+     when adding a document.
+  -->
+
+  <!-- field names should consist of alphanumeric or underscore characters only and
+    not start with a digit.  This is not currently strictly enforced,
+    but other field names will not have first class support from all components
+    and back compatibility is not guaranteed.  Names with both leading and
+    trailing underscores (e.g. _version_) are reserved.
+  -->
+
+  <!-- common metadata -->
+  <field name="id" type="string" indexed="true" stored="true" required="true"/>
+  <field name="vehicleId" type="string" indexed="true" stored="true" required="true"/>
+  <field name="vehicleType" type="string" indexed="true" stored="true" required="true"/>
+  <field name="storeId" type="string" indexed="true" stored="true" required="true"/>
+  <field name="groupId" type="string" indexed="true" stored="true" required="true"/>
+  <dynamicField name="updateInstant_*" type="plong" indexed="true" stored="true"/>
+  <!-- doc values are enabled by default for primitive types such as long so we don't index the version field  -->
+  <field name="_version_" type="plong" indexed="false" stored="false"/>
+  <field name="vehicleVersion" type="pint" indexed="true" stored="true" required="false"/>
+  <field name="visibilityVersion" type="plong" indexed="true" stored="true" required="false"/>
+
+  <field name="brand" type="string" indexed="true" stored="true" required="false"/>
+  <field name="model" type="string" indexed="true" stored="true" required="false"/>
+  <field name="category" type="string" indexed="true" stored="true" required="false"/>
+  <field name="tags" type="simple_keyword_text" multiValued="true" indexed="true" stored="true" required="false" omitNorms="true"/>
+  <field name="engines" type="simple_keyword_text" multiValued="true" indexed="true" stored="true" required="false" omitNorms="true"/>
+  <field name="fuels" type="simple_keyword_text" multiValued="true" indexed="true" stored="true" required="false" omitNorms="true"/>
+  <field name="enginesBlob" type="string" indexed="false" stored="true" required="false"/>
+  <field name="prices" type="pdouble" multiValued="true" indexed="true" stored="true" required="false"/>
+  <field name="pricesBlob" type="string" indexed="false" stored="true" required="false"/>
+  <field name="vehicle_hasPrices" type="boolean" indexed="true" stored="true" required="false"/>
+  <field name="wheelsSize" type="pint" multiValued="true" indexed="true" stored="true" required="false"/>
+  <field name="wheelsType" type="simple_keyword_text" multiValued="true" indexed="true" stored="true" required="false" omitNorms="true"/>
+  <field name="wheelsBlob" type="string" indexed="false" stored="true" required="false"/>
+  <field name="transmissionsType" type="simple_keyword_text" multiValued="true" indexed="true" stored="true" required="false"
+    omitNorms="true"/>
+  <field name="colorsType" type="simple_keyword_text" multiValued="true" indexed="true" stored="true" required="false" omitNorms="true"/>
+  <dynamicField name="colors_name_*" type="simple_keyword_text" multiValued="true" indexed="true" stored="true" required="false"
+    omitNorms="true"/>
+  <field name="colorsBlob" type="string" indexed="false" stored="true" required="false"/>
+  <field name="doors" type="pint" indexed="true" stored="true" required="false"/>
+  <field name="carBodyType" type="simple_keyword_text" indexed="true" stored="true" required="false"/>
+  <field name="truckType" type="simple_keyword_text" indexed="true" stored="true" required="false"/>
+
+
+  <!-- Field to use to determine and enforce document uniqueness.
+    Unless this field is marked with required="false", it will be a required field
+  -->
+  <uniqueKey>id</uniqueKey>
+
+  <!-- copyField commands copy one field to another at the time a document
+     is added to the index.  It's used either to index the same field differently,
+     or to add multiple fields to the same field for easier/faster searching.
+
+  <copyField source="sourceFieldName" dest="destinationFieldName"/>
+  -->
+
+  <!-- field type definitions. The "name" attribute is
+     just a label to be used by field definitions.  The "class"
+     attribute and any other attributes determine the real
+     behavior of the fieldType.
+       Class names starting with "solr" refer to java classes in a
+     standard package such as org.apache.solr.analysis
+  -->
+
+  <!-- The StrField type is not analyzed, but indexed/stored verbatim.
+     It supports doc values but in that case the field needs to be
+     single-valued and either required or have a default value.
+    -->
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true" docValues="false"/>
+  <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+
+  <fieldType name="strings" class="solr.StrField" sortMissingLast="true" multiValued="true" docValues="false"/>
+  <fieldType name="booleans" class="solr.BoolField" sortMissingLast="true" multiValued="true"/>
+
+  <!-- sortMissingLast and sortMissingFirst attributes are optional attributes are
+       currently supported on types that are sorted internally as strings
+       and on numeric types.
+     This includes "string","boolean", "int", "float", "long", "date", "double",
+     including the "Trie" and "Point" variants.
+     - If sortMissingLast="true", then a sort on this field will cause documents
+       without the field to come after documents with the field,
+       regardless of the requested sort order (asc or desc).
+     - If sortMissingFirst="true", then a sort on this field will cause documents
+       without the field to come before documents with the field,
+       regardless of the requested sort order.
+     - If sortMissingLast="false" and sortMissingFirst="false" (the default),
+       then default lucene sorting will be used which places docs without the
+       field first in an ascending sort and last in a descending sort.
+  -->
+
+  <!--
+    Numeric field types that index values using KD-trees. *Point fields are faster and more efficient than Trie* fields both, at
+    search time and at index time, but some features are still not supported.
+    Point fields don't support FieldCache, so they must have docValues="true" if needed for sorting, faceting, functions, etc.
+  -->
+  <fieldType name="pint" class="solr.IntPointField" docValues="true"/>
+  <fieldType name="pfloat" class="solr.FloatPointField" docValues="true"/>
+  <fieldType name="plong" class="solr.LongPointField" docValues="true"/>
+  <fieldType name="pdouble" class="solr.DoublePointField" docValues="true"/>
+
+  <fieldType name="pints" class="solr.IntPointField" docValues="true" multiValued="true"/>
+  <fieldType name="pfloats" class="solr.FloatPointField" docValues="true" multiValued="true"/>
+  <fieldType name="plongs" class="solr.LongPointField" docValues="true" multiValued="true"/>
+  <fieldType name="pdoubles" class="solr.DoublePointField" docValues="true" multiValued="true"/>
+
+  <!--
+    Default numeric field types. For faster range queries, consider *PointFields (pint/pfloat/plong/pdouble), or the
+    tint/tfloat/tlong/tdouble types.
+  -->
+  <fieldType name="int" class="solr.TrieIntField" docValues="true" precisionStep="0"
+    positionIncrementGap="0"/>
+  <fieldType name="float" class="solr.TrieFloatField" docValues="true" precisionStep="0"
+    positionIncrementGap="0"/>
+  <fieldType name="long" class="solr.TrieLongField" docValues="true" precisionStep="0"
+    positionIncrementGap="0"/>
+  <fieldType name="double" class="solr.TrieDoubleField" docValues="true" precisionStep="0"
+    positionIncrementGap="0"/>
+
+  <fieldType name="ints" class="solr.TrieIntField" docValues="true" precisionStep="0"
+    positionIncrementGap="0" multiValued="true"/>
+  <fieldType name="floats" class="solr.TrieFloatField" docValues="true" precisionStep="0"
+    positionIncrementGap="0" multiValued="true"/>
+  <fieldType name="longs" class="solr.TrieLongField" docValues="true" precisionStep="0"
+    positionIncrementGap="0" multiValued="true"/>
+  <fieldType name="doubles" class="solr.TrieDoubleField" docValues="true" precisionStep="0"
+    positionIncrementGap="0" multiValued="true"/>
+
+  <!--
+   Numeric field types that index each value at various levels of precision
+   to accelerate range queries when the number of values between the range
+   endpoints is large. See the javadoc for NumericRangeQuery for internal
+   implementation details.
+
+   Smaller precisionStep values (specified in bits) will lead to more tokens
+   indexed per value, slightly larger index size, and faster range queries.
+   A precisionStep of 0 disables indexing at different precision levels.
+
+   Consider using pint/pfloat/plong/pdouble instead of Trie* fields if possible
+  -->
+  <fieldType name="tint" class="solr.TrieIntField" docValues="true" precisionStep="8"
+    positionIncrementGap="0"/>
+  <fieldType name="tfloat" class="solr.TrieFloatField" docValues="true" precisionStep="8"
+    positionIncrementGap="0"/>
+  <fieldType name="tlong" class="solr.TrieLongField" docValues="true" precisionStep="8"
+    positionIncrementGap="0"/>
+  <fieldType name="tdouble" class="solr.TrieDoubleField" docValues="true" precisionStep="8"
+    positionIncrementGap="0"/>
+
+  <fieldType name="tints" class="solr.TrieIntField" docValues="true" precisionStep="8"
+    positionIncrementGap="0" multiValued="true"/>
+  <fieldType name="tfloats" class="solr.TrieFloatField" docValues="true" precisionStep="8"
+    positionIncrementGap="0" multiValued="true"/>
+  <fieldType name="tlongs" class="solr.TrieLongField" docValues="true" precisionStep="8"
+    positionIncrementGap="0" multiValued="true"/>
+  <fieldType name="tdoubles" class="solr.TrieDoubleField" docValues="true" precisionStep="8"
+    positionIncrementGap="0" multiValued="true"/>
+
+  <!-- The format for this date field is of the form 1995-12-31T23:59:59Z, and
+       is a more restricted form of the canonical representation of dateTime
+       http://www.w3.org/TR/xmlschema-2/#dateTime
+       The trailing "Z" designates UTC time and is mandatory.
+       Optional fractional seconds are allowed: 1995-12-31T23:59:59.999Z
+       All other components are mandatory.
+
+       Expressions can also be used to denote calculations that should be
+       performed relative to "NOW" to determine the value, ie...
+
+             NOW/HOUR
+                ... Round to the start of the current hour
+             NOW-1DAY
+                ... Exactly 1 day prior to now
+             NOW/DAY+6MONTHS+3DAYS
+                ... 6 months and 3 days in the future from the start of
+                    the current day
+
+       Consult the TrieDateField javadocs for more information.
+    -->
+  <!-- KD-tree versions of date fields -->
+  <fieldType name="pdate" class="solr.DatePointField" docValues="true"/>
+  <fieldType name="pdates" class="solr.DatePointField" docValues="true" multiValued="true"/>
+
+  <fieldType name="date" class="solr.TrieDateField" docValues="true" precisionStep="0"
+    positionIncrementGap="0"/>
+  <fieldType name="dates" class="solr.TrieDateField" docValues="true" precisionStep="0"
+    positionIncrementGap="0" multiValued="true"/>
+
+  <fieldType name="tdate" class="solr.TrieDateField" docValues="true" precisionStep="6"
+    positionIncrementGap="0"/>
+  <fieldType name="tdates" class="solr.TrieDateField" docValues="true" precisionStep="6"
+    positionIncrementGap="0" multiValued="true"/>
+
+  <fieldType name="simple_keyword_text" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.ASCIIFoldingFilterFactory"/>
+    </analyzer>
+  </fieldType>
+
+  <!--Binary data type. The data should be sent/retrieved in as Base64 encoded Strings -->
+  <fieldType name="binary" class="solr.BinaryField"/>
+
+  <!-- The "RandomSortField" is not used to store or search any
+       data.  You can declare fields of this type it in your schema
+       to generate pseudo-random orderings of your docs for sorting
+       or function purposes.  The ordering is generated based on the field
+       name and the version of the index. As long as the index version
+       remains unchanged, and the same field name is reused,
+       the ordering of the docs will be consistent.
+       If you want different psuedo-random orderings of documents,
+       for the same version of the index, use a dynamicField and
+       change the field name in the request.
+   -->
+  <fieldType name="random" class="solr.RandomSortField" indexed="true"/>
+
+  <!-- solr.TextField allows the specification of custom text analyzers
+       specified as a tokenizer and a list of token filters. Different
+       analyzers may be specified for indexing and querying.
+
+       The optional positionIncrementGap puts space between multiple fields of
+       this type on the same document, with the purpose of preventing false phrase
+       matching across fields.
+
+       For more info on customizing your analyzer chain, please see
+       http://wiki.apache.org/solr/AnalyzersTokenizersTokenFilters
+   -->
+
+  <!-- One can also specify an existing Analyzer class that has a
+       default constructor via the class attribute on the analyzer element.
+       Example:
+  <fieldType name="text_greek" class="solr.TextField">
+    <analyzer class="org.apache.lucene.analysis.el.GreekAnalyzer"/>
+  </fieldType>
+  -->
+
+</schema>

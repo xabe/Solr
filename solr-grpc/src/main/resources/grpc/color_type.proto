@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+enum ColorType {
+  COLOR_UNSPECIFIED = 0;
+  COLOR_SOLID = 1;
+  COLOR_METALLIC = 2;
+}

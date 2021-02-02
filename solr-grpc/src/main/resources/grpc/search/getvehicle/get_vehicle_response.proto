@@ -1,0 +1,11 @@
+syntax = "proto3";
+package com.xabe.vehicle.search;
+
+import "section.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc.search.getvehicle";
+
+message GetVehicleResponse {
+
+  repeated com.xabe.vehicle.Section sections = 1;
+}

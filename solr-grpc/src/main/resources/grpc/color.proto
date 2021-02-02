@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+import "color_type.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+message Color {
+
+  string id = 1;
+
+  ColorType type = 2;
+
+  string name = 3;
+}

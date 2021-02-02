@@ -1,0 +1,14 @@
+syntax = "proto3";
+package com.xabe.vehicle.update;
+
+import "vehicle_id.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc.update.updatecarinfo";
+
+message UpdateCarInfoResponse {
+
+  com.xabe.vehicle.VehicleId id = 1;
+
+  string status = 2;
+
+}

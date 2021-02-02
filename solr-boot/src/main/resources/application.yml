@@ -1,0 +1,36 @@
+server:
+  servlet:
+    context-path: /
+  port: 7080
+grpc:
+  server:
+    port: 6565
+logging:
+  level:
+    root: INFO
+    io.grpc: INFO
+    com.xabe.spring.solr: INFO
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: solr
+
+optimistic-locking:
+  max-attemps: 3
+  back-off-ms: 1000
+
+db:
+  vehicle:
+    url: http://${solr.host}:${solr.port}/solr/
+    collection: vehicles
+    user: ${solr.user}
+    row-count: ${solr.row-count:1000}
+    password: ${solr.password}
+    client:
+      max-connections: 25
+      max-connections-per-host: 25
+      connection-timeout: 10000
+      request-timeout: 10000
+      allow-compression: false

@@ -1,0 +1,13 @@
+syntax = "proto3";
+package com.xabe.vehicle;
+
+import "google/protobuf/any.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc.exception";
+
+message ProblemDetails {
+  int32 code = 1; // Code of the service exception
+  string title = 2; // Human readable exception title
+  string detail = 3; // Detail of the exception title
+  google.protobuf.Any extended_info = 4; //Information structure with error detail
+}

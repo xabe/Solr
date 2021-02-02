@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.xabe</groupId>
+  <artifactId>solr</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <modules>
+    <module>solr-boot</module>
+    <module>solr-grpc</module>
+  </modules>
+  <packaging>pom</packaging>
+
+  <properties>
+    <java.version>11</java.version>
+    <maven.compiler.parameters>true</maven.compiler.parameters>
+    <maven.compiler.source>11</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <apache.solr.version>8.7.0</apache.solr.version>
+    <grpc.version>1.31.1</grpc.version>
+    <protoc.version>3.12.0</protoc.version>
+    <lombok.version>1.18.12</lombok.version>
+    <mapstruct.version>1.4.1.Final</mapstruct.version>
+    <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
+    <skipTests>false</skipTests>
+    <skipITs>${skipTests}</skipITs>
+    <skipUTs>${skipTests}</skipUTs>
+    <jacoco.version>0.8.6</jacoco.version>
+    <jacoco.haltOnFailure>false</jacoco.haltOnFailure>
+    <jacoco.line.coveredRatio>0.85</jacoco.line.coveredRatio>
+    <jacoco.branch.coveredRatio>0.85</jacoco.branch.coveredRatio>
+  </properties>
+
+</project>

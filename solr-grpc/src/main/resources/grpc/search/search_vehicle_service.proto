@@ -1,0 +1,16 @@
+syntax = "proto3";
+package com.xabe.vehicle.search;
+
+import "search/getvehicle/get_vehicle_request.proto";
+import "search/getvehicle/get_vehicle_response.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc.search";
+
+service SearchVehicleService {
+
+  rpc GetVehicle(GetVehicleRequest)
+    returns (GetVehicleResponse)
+  {
+  }
+
+}

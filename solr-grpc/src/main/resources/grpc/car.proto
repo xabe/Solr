@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+import "vehicle_id.proto";
+import "color.proto";
+import "engine.proto";
+import "prices.proto";
+import "transmission_type.proto";
+import "wheel.proto";
+import "car_type.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+message Car {
+
+  VehicleId vehicleId = 1;
+
+  repeated string category = 2;
+
+  string brand = 3;
+
+  string model = 4;
+
+  repeated Color colors = 5;
+
+  repeated Engine engines = 6;
+
+  Prices prices = 7;
+
+  repeated TransmissionType transmissions = 8;
+
+  repeated Wheel wheels = 9;
+
+  CarType type = 10;
+
+  int32 doors = 11;
+
+}

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+enum EngineType {
+  ENGINE_UNSPECIFIED = 0;
+  ENGINE_IN_LINE = 1;
+  ENGINE_V = 2;
+  ENGINE_W = 3;
+  ENGINE_FLAT = 4;
+}

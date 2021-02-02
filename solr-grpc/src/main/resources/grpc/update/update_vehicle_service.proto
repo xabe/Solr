@@ -1,0 +1,65 @@
+syntax = "proto3";
+package com.xabe.vehicle.update;
+
+import "update/updatevehiclebasicinfo/update_vehicle_basic_info_request.proto";
+import "update/updatevehiclebasicinfo/update_vehicle_basic_info_response.proto";
+import "update/updatevehicleengine/update_vehicle_engine_request.proto";
+import "update/updatevehicleengine/update_vehicle_engine_response.proto";
+import "update/updatevehicleprice/update_vehicle_price_request.proto";
+import "update/updatevehicleprice/update_vehicle_price_response.proto";
+import "update/updatevehiclewheel/update_vehicle_wheel_request.proto";
+import "update/updatevehiclewheel/update_vehicle_wheel_response.proto";
+import "update/updatevehiclecolor/update_vehicle_color_request.proto";
+import "update/updatevehiclecolor/update_vehicle_color_response.proto";
+import "update/updatevehicletransmission/update_vehicle_transmission_request.proto";
+import "update/updatevehicletransmission/update_vehicle_transmission_response.proto";
+import "update/updatecarinfo/update_car_info_request.proto";
+import "update/updatecarinfo/update_car_info_response.proto";
+import "update/updatetruckinfo/update_truck_info_request.proto";
+import "update/updatetruckinfo/update_truck_info_response.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc.update";
+
+service UpdateVehicleService {
+
+  rpc UpdateVehicleBasicInfo(UpdateVehicleBasicRequest)
+    returns (UpdateVehicleBasicResponse)
+  {
+  }
+
+  rpc UpdateVehicleEngine(UpdateVehicleEngineRequest)
+    returns (UpdateVehicleEngineResponse)
+  {
+  }
+
+  rpc UpdateVehiclePrice(UpdateVehiclePriceRequest)
+    returns (UpdateVehiclePriceResponse)
+  {
+  }
+
+  rpc UpdateVehicleWheel(UpdateVehicleWheelRequest)
+    returns (UpdateVehicleWheelResponse)
+  {
+  }
+
+  rpc UpdateVehicleColor(UpdateVehicleColorRequest)
+    returns (UpdateVehicleColorResponse)
+  {
+  }
+
+  rpc UpdateVehicleTransmission(UpdateVehicleTransmissionRequest)
+    returns (UpdateVehicleTransmissionResponse)
+  {
+  }
+
+  rpc UpdateCarInfo(UpdateCarInfoRequest)
+    returns (UpdateCarInfoResponse)
+  {
+  }
+
+  rpc UpdateTruckInfo(UpdateTruckInfoRequest)
+    returns (UpdateTruckInfoResponse)
+  {
+  }
+
+}

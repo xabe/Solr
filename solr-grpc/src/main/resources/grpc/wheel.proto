@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+import "wheel_type.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+message Wheel {
+
+  int32 count = 1;
+
+  int32 size = 2;
+
+  WheelType type = 3;
+
+}

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+import "car.proto";
+import "truck.proto";
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+message Section {
+
+  int32 sequence_no = 1;
+
+  message VehicleElement {
+    oneof component{
+      Car car = 1;
+      Truck truck = 2;
+    }
+  }
+
+  repeated VehicleElement elements = 2;
+}

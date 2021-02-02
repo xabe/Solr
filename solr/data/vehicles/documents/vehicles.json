@@ -1,0 +1,137 @@
+[
+  {
+    "id": "11713!CAR::11713",
+    "vehicleId": "11713",
+    "vehicleType": "PRODUCT",
+    "storeId": "11713",
+    "groupId": "groupd",
+    "visibilityVersion": 1,
+    "vehicleVersion": "1",
+    "brand": "brand",
+    "model": "model",
+    "category": "category",
+    "tags": [
+      "tags"
+    ],
+    "engines": [
+      "V"
+    ],
+    "fuels": [
+      "petrol"
+    ],
+    "enginesBlob": "[]",
+    "prices": [
+      50.0,
+      75.0
+    ],
+    "pricesBlob": "{}",
+    "vehicle_hasPrices": false,
+    "wheelsSize": [
+      15
+    ],
+    "wheelsType": [
+      "SUMMER"
+    ],
+    "wheelsBlob": "[]",
+    "transmissionsType": [
+      "MANUAL"
+    ],
+    "colorsType": [
+      "SOLID"
+    ],
+    "colorsBlob": "{}",
+    "doors": 0,
+    "carBodyType": "",
+    "truckType": ""
+  },
+  {
+    "id": "11714!CAR::11714",
+    "vehicleId": "11714",
+    "vehicleType": "PRODUCT",
+    "storeId": "11714",
+    "groupId": "groupd",
+    "visibilityVersion": 1,
+    "vehicleVersion": "1",
+    "brand": "brands",
+    "model": "models",
+    "category": "categories",
+    "tags": [
+      "tags"
+    ],
+    "engines": [
+      "V"
+    ],
+    "fuels": [
+      "petrol"
+    ],
+    "enginesBlob": "[]",
+    "prices": [
+      50.0,
+      75.0
+    ],
+    "pricesBlob": "{}",
+    "vehicle_hasPrices": false,
+    "wheelsSize": [
+      15
+    ],
+    "wheelsType": [
+      "SUMMER"
+    ],
+    "wheelsBlob": "[]",
+    "transmissionsType": [
+      "MANUAL"
+    ],
+    "colorsType": [
+      "SOLID"
+    ],
+    "colorsBlob": "{}",
+    "doors": 0,
+    "carBodyType": "",
+    "truckType": ""
+  },
+  {
+    "id": "11715!CAR::11715",
+    "vehicleId": "11715",
+    "vehicleType": "PRODUCT",
+    "storeId": "11715",
+    "groupId": "groupd",
+    "visibilityVersion": 1,
+    "vehicleVersion": "1",
+    "brand": "brandis",
+    "model": "models",
+    "category": "categories",
+    "tags": [
+      "tags"
+    ],
+    "engines": [
+      "V"
+    ],
+    "fuels": [
+      "petrol"
+    ],
+    "enginesBlob": "[]",
+    "prices": [
+      50.0,
+      75.0
+    ],
+    "pricesBlob": "{}",
+    "vehicle_hasPrices": false,
+    "wheelsSize": [
+      15
+    ],
+    "wheelsType": [
+      "SUMMER"
+    ],
+    "wheelsBlob": "[]",
+    "transmissionsType": [
+      "MANUAL"
+    ],
+    "colorsType": [
+      "SOLID"
+    ],
+    "colorsBlob": "{}",
+    "doors": 0,
+    "carBodyType": "",
+    "truckType": ""
+  }
+]

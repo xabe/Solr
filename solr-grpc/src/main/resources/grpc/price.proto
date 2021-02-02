@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+message Price {
+
+  int64 price = 1;
+
+  int32 discount = 2;
+
+  string price_format = 3;
+
+}

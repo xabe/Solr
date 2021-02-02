@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package com.xabe.vehicle;
+
+option java_package = "com.xabe.vehicle.api.grpc";
+
+enum WheelType {
+  WHEEL_UNSPECIFIED = 0;
+  WHEEL_ALL_SEASONS = 1;
+  WHEEL_SUMMER = 2;
+  WHEEL_WINTER = 3;
+}
