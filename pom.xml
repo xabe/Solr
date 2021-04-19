@@ -20,7 +20,7 @@
     <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <apache.solr.version>8.7.0</apache.solr.version>
+    <apache.solr.version>8.8.2</apache.solr.version>
     <grpc.version>1.31.1</grpc.version>
     <protoc.version>3.12.0</protoc.version>
     <lombok.version>1.18.12</lombok.version>

@@ -1,4 +1,4 @@
-FROM solr:8.7-slim
+FROM solr:8.8.2
 
 USER root
 

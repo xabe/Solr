@@ -1,3 +1,8 @@
+logging:
+  level:
+    root: INFO
+    org.apache.solr.client.solrj.impl: TRACE
+
 optimistic-locking:
   max-attemps: 3
   back-off-ms: 0

@@ -5,12 +5,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.impl.BinaryResponseParser;
+import org.apache.solr.client.solrj.impl.Http2SolrClient;
 import org.apache.solr.client.solrj.impl.HttpClientUtil;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class SolrConfiguration {
@@ -61,11 +63,24 @@ public class SolrConfiguration {
     return HttpClientUtil.createClient(params);
   }
 
+  @Profile("one")
   @Bean(destroyMethod = "close", name = "solrClient")
   public SolrClient getSolrClient(final CloseableHttpClient closeableHttpClient) {
-    return new HttpSolrClient.Builder(this.solrURL + this.collection).withSocketTimeout(Integer.parseInt(this.requestTimeout))
-        .withConnectionTimeout(Integer.parseInt(this.connectionTimeout)).withHttpClient(closeableHttpClient)
+    return new HttpSolrClient.Builder(this.solrURL + this.collection)
+        .withSocketTimeout(Integer.parseInt(this.requestTimeout))
+        .withConnectionTimeout(Integer.parseInt(this.connectionTimeout))
+        .withHttpClient(closeableHttpClient)
         .withResponseParser(new BinaryResponseParser()).build();
   }
 
+  @Profile("!one")
+  @Bean(destroyMethod = "close", name = "solrClient")
+  public SolrClient getSolrClient2() {
+    return new Http2SolrClient.Builder(this.solrURL + this.collection)
+        .idleTimeout(1000)
+        .useHttp1_1(false)
+        .connectionTimeout(Integer.parseInt(this.connectionTimeout))
+        .maxConnectionsPerHost(Integer.parseInt(this.maxConnectionsPerHost))
+        .build();
+  }
 }
