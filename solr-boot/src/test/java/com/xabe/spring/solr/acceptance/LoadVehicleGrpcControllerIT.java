@@ -5,6 +5,24 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
+import java.util.function.IntFunction;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.StreamSupport;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.xabe.spring.solr.App;
 import com.xabe.spring.solr.acceptance.data.Car;
@@ -35,20 +53,6 @@ import com.xabe.vehicle.api.grpc.update.updatevehicleprice.UpdateVehiclePriceReq
 import com.xabe.vehicle.api.grpc.update.updatevehicleprice.UpdateVehiclePriceRequestOuterClass.UpdateVehiclePriceRequest.Prices;
 import com.xabe.vehicle.api.grpc.update.updatevehicletransmission.UpdateVehicleTransmissionRequestOuterClass.UpdateVehicleTransmissionRequest;
 import com.xabe.vehicle.api.grpc.update.updatevehiclewheel.UpdateVehicleWheelRequestOuterClass.UpdateVehicleWheelRequest;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.time.Duration;
-import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import org.apache.solr.client.solrj.SolrClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
@@ -123,12 +127,13 @@ public class LoadVehicleGrpcControllerIT {
 
     final CountResponse count = response.body();
 
-    final Pagination pagination = Pagination.of(50, count.getCount());
-
-    final List<CompletableFuture<CarResponse>> completableFutures =
-        StreamSupport.stream(new PaginationIterator(pagination).spliterator(), false)
-            .map(this.callAsyncData(httpClient, "BMW"))
-            .collect(Collectors.toList());
+    final AtomicInteger offset = new AtomicInteger();
+    final int pageSize = 50;
+    final int batches = (count.getCount() / pageSize) + (count.getCount() % pageSize > 0 ? 1 : 0);
+    final List<CompletableFuture<CarResponse>> completableFutures = IntStream.range(0, batches)
+        .parallel()
+        .mapToObj(this.callAsyncData(httpClient, "BMW", offset, pageSize))
+        .collect(Collectors.toList());
 
     final CompletableFuture<List<CarResponse>> listCompletableFuture = this.allOfOrException(completableFutures);
     final List<Car> httpResponses =
@@ -265,6 +270,22 @@ public class LoadVehicleGrpcControllerIT {
         .whenComplete((r, t) -> {
           System.out.println("Number items " + r.getCars().size());
         });
+  }
+
+  private IntFunction<CompletableFuture<CarResponse>> callAsyncData(final HttpClient httpClient,
+      final String make, final AtomicInteger offset, final int pageSize) {
+    return (pagination) -> {
+      final int os = offset.getAndAdd(pageSize);
+      return httpClient
+          .sendAsync(
+              this.createHttpRequestGet(String.format(this.url, make, os, pageSize)),
+              new JsonBodyHandlers<>(new TypeReference<CarResponse>() {
+              }))
+          .thenApply(HttpResponse::body)
+          .whenComplete((r, t) -> {
+            System.out.println("Number items " + r.getCars().size());
+          });
+    };
   }
 
   private HttpRequest createHttpRequestGet(final String uri) {
